@@ -34,12 +34,26 @@ se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
 
+
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2- Encontrar buenos videos por categoria y pais")
+    print("3- Encontrar video tendencia por pais")
+    print("4- Encontrar video tendencia por categoria individual")
+    print("5- Encontrar con mas likes")
+
+
+def initCatalog():
+    return controller.initCatalog()
+
+
+def loadData(catalog):
+    controller.loadData(catalog)
+
 
 catalog = None
+
 
 """
 Menu principal
@@ -49,9 +63,13 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
+        catalog = initCatalog()
+        loadData(catalog)
+        print('Videos cargados: ' + str(lt.size(catalog['video'])))
+        print('Categorias cargadas: ' + str(lt.size(catalog['category'])))
 
     elif int(inputs[0]) == 2:
-        pass
+        print('Esto todavia nel')
 
     else:
         sys.exit(0)

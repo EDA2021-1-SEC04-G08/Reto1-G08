@@ -44,8 +44,8 @@ def printMenu():
     print("5- Encontrar con mas likes")
 
 
-def initCatalog():
-    return controller.initCatalog()
+def initCatalog(tipo):
+    return controller.initCatalog(tipo)
 
 
 def loadData(catalog):
@@ -63,13 +63,18 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-        catalog = initCatalog()
+        data = input("Seleccione el tipo de estructura de datos desea " +
+                     "usar (ARRAY_LIST) o (SINGLE_LINKED): ")
+        catalog = initCatalog(data)
         loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['video'])))
         print('Categorias cargadas: ' + str(lt.size(catalog['category'])))
 
     elif int(inputs[0]) == 2:
-        print('Esto todavia nel')
+        number = input("Numero de videos a listar: ")
+        orden = input("seleccionar el tipo de algoritmo de ordenamiento " +
+                      "iterativo (selection, insertion o shell): ")
+        print(controller.sortVideos(catalog, int(number), orden))
 
     else:
         sys.exit(0)

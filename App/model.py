@@ -26,8 +26,11 @@
 
 
 import config as cf
+import time
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import insertionsort as ins
+from DISClib.Algorithms.Sorting import selectionsort as ss
 assert cf
 
 """
@@ -38,12 +41,12 @@ listas, una para los videos, otra para las categorias de los mismos.
 # Construccion de modelos
 
 
-def newCatalog():
+def newCatalog(tipo):
     catalog = {'video': None,
                'category': None}
 
-    catalog['video'] = lt.newList(datastructure='ARRAY_LIST')
-    catalog['category'] = lt.newList(datastructure='ARRAY_LIST')
+    catalog['video'] = lt.newList(datastructure=tipo)
+    catalog['category'] = lt.newList(datastructure=tipo)
 
     return catalog
 
@@ -64,4 +67,33 @@ def addCategory(catalog, category):
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
+
+def cmpVideosByViews(video1, video2):
+    """
+    Devuelve verdadero (True) si los 'views' de video1 son menores que los del
+    video2.
+    Args:
+    video1: informacion del primer video que incluye su valor 'views'
+    video2: informacion del segundo video que incluye su valor 'views'
+    """
+    return ((video1['views']) < (video2['views']))
+
+
 # Funciones de ordenamiento
+
+def sortVideos(catalog, num, orden):
+    sub_list = lt.subList(catalog['video'], 0, num)
+    sub_list = sub_list.copy()
+    start_time = time.process_time()
+    if orden == "selection":
+        sorted_list = ss.sort(sub_list, cmpVideosByViews)
+
+    elif orden == "insertion":
+        sorted_list = ins.sort(sub_list, cmpVideosByViews)
+
+    elif orden == "shell":
+        sorted_list = sa.sort(sub_list, cmpVideosByViews)
+
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    return elapsed_time_mseg

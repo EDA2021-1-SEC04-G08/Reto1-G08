@@ -26,6 +26,7 @@ import controller
 from DISClib.ADT import list as lt
 assert cf
 
+sys.setrecursionlimit(1000*10)
 
 """
 La vista se encarga de la interacción con el usuario
@@ -73,7 +74,8 @@ while True:
     elif int(inputs[0]) == 2:
         number = input("Numero de videos a listar: ")
         orden = input("seleccionar el tipo de algoritmo de ordenamiento " +
-                      "iterativo (selection, insertion o shell): ")
+                      "iterativo (selection, insertion, shell," +
+                      " quick, merge): ")
         print(controller.sortVideos(catalog, int(number), orden))
 
     else:

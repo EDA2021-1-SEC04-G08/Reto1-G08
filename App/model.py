@@ -105,3 +105,18 @@ def sortVideos(catalog, num, orden):
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg
+
+#Espacio requerimiento 2
+
+
+
+
+
+
+
+
+
+
+
+
+#Espacio requerimiento 3

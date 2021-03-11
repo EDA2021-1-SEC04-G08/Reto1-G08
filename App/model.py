@@ -47,8 +47,8 @@ def newCatalog(tipo):
     catalog = {'video': None,
                'category': None}
 
-    catalog['video'] = lt.newList(datastructure=tipo)
-    catalog['category'] = lt.newList(datastructure=tipo)
+    catalog['video'] = lt.newList(datastructure=tipo.upper())
+    catalog['category'] = lt.newList(datastructure=tipo.upper())
 
     return catalog
 
@@ -65,7 +65,26 @@ def addCategory(catalog, category):
 
 # Funciones para creacion de datos
 
+
+def sublistReq1(catalog, category, country):
+    sublist = lt.newList()
+    size = lt.size(catalog)
+    for i in range(0, size-1):
+        video = lt.getElement(catalog, i)
+        if video["category_id"] == category and video["country"] == country:
+            lt.addLast(sublist, video)
+    return sublist
+
 # Funciones de consulta
+
+
+def categoria_pedida(catalog, pedido):
+    cat = catalog['category']
+    for category in cat:
+        if pedido == category:
+            return cat[category]
+        else:
+            return 'No se encontro la categoria escrita'
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
@@ -87,36 +106,21 @@ def sortVideos(catalog, num, orden):
     sub_list = lt.subList(catalog['video'], 0, num)
     sub_list = sub_list.copy()
     start_time = time.process_time()
-    if orden == "selection":
+    if orden.lower() == "selection":
         sorted_list = ss.sort(sub_list, cmpVideosByViews)
 
-    elif orden == "insertion":
+    elif orden.lower() == "insertion":
         sorted_list = ins.sort(sub_list, cmpVideosByViews)
 
-    elif orden == "shell":
+    elif orden.lower() == "shell":
         sorted_list = sa.sort(sub_list, cmpVideosByViews)
 
-    elif orden == "quick":
+    elif orden.lower() == "quick":
         sorted_list = qs.sort(sub_list, cmpVideosByViews)
 
-    elif orden == "merge":
+    elif orden.lower() == "merge":
         sorted_list = ms.sort(sub_list, cmpVideosByViews)
 
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
-    return elapsed_time_mseg
-
-#Espacio requerimiento 2
-
-
-
-
-
-
-
-
-
-
-
-
-#Espacio requerimiento 3
+    return [elapsed_time_mseg, sorted_list]

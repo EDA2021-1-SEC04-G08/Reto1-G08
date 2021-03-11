@@ -43,6 +43,7 @@ def printMenu():
     print("3- Encontrar video tendencia por pais")
     print("4- Encontrar video tendencia por categoria individual")
     print("5- Encontrar con mas likes")
+    print("6- Salir")
 
 
 def initCatalog(tipo):
@@ -51,6 +52,28 @@ def initCatalog(tipo):
 
 def loadData(catalog):
     controller.loadData(catalog)
+
+
+def categoriaID(catalog, pedido):
+    return controller.categoria_pedida(catalog, pedido)
+
+
+def printVideos1(videos, cantidad):
+    size = lt.size(videos)
+    if size > cantidad:
+        print(' Estos son los mejores videos: ')
+        i = 0
+        while i <= cantidad-1:
+            video = lt.getElement(videos, i)
+            print('Titulo: ' + video['title'] + ', Trending Date:' +
+                  video['trending_date'] + ', Nombre del canal:' +
+                  video['channel_title'] + ', Publish Time:' +
+                  video['publish_time'] + ', Reproducciones:' +
+                  video['views'] + ', Likes:' + video['likes'] +
+                  ', Dislikes:' + video['dislikes'])
+            i += 1
+    else:
+        print('No se encontraron videos')
 
 
 catalog = None
@@ -63,20 +86,26 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        print("Cargando información de los archivos ....")
         data = input("Seleccione el tipo de estructura de datos desea " +
                      "usar (ARRAY_LIST) o (SINGLE_LINKED): ")
+        print("Cargando información de los archivos ....")
         catalog = initCatalog(data)
         loadData(catalog)
         print('Videos cargados: ' + str(lt.size(catalog['video'])))
         print('Categorias cargadas: ' + str(lt.size(catalog['category'])))
 
     elif int(inputs[0]) == 2:
-        number = input("Numero de videos a listar: ")
+        number = input("Cantidad de datos a listar: ")
         orden = input("seleccionar el tipo de algoritmo de ordenamiento " +
                       "iterativo (selection, insertion, shell," +
                       " quick, merge): ")
-        print(controller.sortVideos(catalog, int(number), orden))
+        pais = input("Seleccione un pais: ")
+        categoria = input("Seleccione una categoria: ")
+        top = input('Top?: ')
+        catOrd = controller.sortVideos(catalog, int(number), orden)[1]
+        cat = categoriaID(catalog, categoria)
+        sublist = controller.sublistReq1(catOrd, cat, pais)
+        print(printVideos1(sublist, int(top)))
 
     else:
         sys.exit(0)

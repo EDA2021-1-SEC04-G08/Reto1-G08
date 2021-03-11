@@ -23,6 +23,7 @@
 import config as cf
 import model
 import csv
+from re import split
 
 
 """
@@ -55,7 +56,14 @@ def loadCategories(catalog):
     ctfile = cf.data_dir + 'videos/category-id.csv'
     input_file = csv.DictReader(open(ctfile, encoding='utf-8'))
     for category in input_file:
-        model.addCategory(catalog, category)
+        dic = {}
+        num = split('\D+', category['id\tname'])
+        lista = category['id\tname'].split()
+        palabra = lista[1:]
+        n = "".join(num)
+        p = ' '.join(palabra)
+        dic[p] = n
+        model.addCategory(catalog, dic)
 
 
 # Funciones de ordenamiento
@@ -68,3 +76,11 @@ def sortVideos(catalog, num, orden):
 
 
 # Funciones de consulta sobre el catálogo
+
+def categoria_pedida(catalog, pedido):
+    return model.categoria_pedida(catalog, pedido)
+
+
+def sublistReq1(catalog, category, country):
+    sublist = model.sublistReq1(catalog, category, country)
+    return sublist
